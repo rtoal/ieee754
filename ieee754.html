@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>IEEE 754</title>
+    <link rel="stylesheet" href="ieee754.css" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="ieee754.js"></script>
+  </head>
+
+  <body>
+    <h1>IEEE 754 Decoder</h1>
+
+    <p>Enter a 32 or 64-bit hexadecimal value below to see how it is interpreted
+    in <a href="http://en.wikipedia.org/wiki/IEEE_754-1985">IEEE 754-1985</a>.  Note that you
+    only see the interpretations when exactly 8 or 16 hexadecimal digits have been entered.
+    The "printed decimal value" is given as whatever JavaScript decides to render; this value
+    is only good to around seven significant digits (for 32-bit floats) and around 15 significant
+    digits (for 64-bit floats), so please understand the printed value is usually only an
+    approximation.</p>
+
+    <div class="entry">
+      <table border="0" cellpadding="6">
+        <tr><td>Hexadecimal<td><input id="hex" type="text" size="24" maxlength="16" />
+        <tr><td>Binary<td><span id="sign"></span><span id="exp"></span><span id="mantissa"></span>
+        <tr><td>Exact Value<td><span id="description"></span>
+        <tr><td>Printed Decimal Value<br />(may be approximate)<td><span id="decimal"></span>
+      </table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+input {
+   font-size: 200%;
+}
+
+span#sign {
+    background-color: #aaffff;
+}
+
+span#exp {
+    background-color: #ffcc88;
+}
+
+span#mantissa {
+    background-color: #ccffcc;
+}
+
+div.entry {
+    border-top: 1px solid #888;
+    border-bottom: 1px solid #888;
+    background-color: #eee;
+}
