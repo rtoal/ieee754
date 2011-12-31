@@ -3,9 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <title>IEEE 754</title>
-    <link rel="stylesheet" href="ieee754.css" />
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="ieee754.js"></script>
+    <!--jquery scripts-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    <!--tabs :D-->
+    <script>
+        $(document).ready(function() {
+            $("#tabs").tabs();
+        });
+  </script>
+  
   </head>
 
   <body>
@@ -19,25 +29,34 @@
     digits (for 64-bit floats), so please understand the printed value is usually only an
     approximation.</p>
     
-    
+    <div id = "tabs">
+        <ul>
+            <li><a href="#decoder">Decoder</a></li>
+            <li><a href="#encoder">Econder</a></li>
+        </ul>
+        
     <div id="entryMethods">
-        <fieldset id="fromHex" class="content"><legend class="label">Decoder</legend>
+        <div id="decoder">
+        
             <table border="0" cellpadding="6">
                 <tr><td>Hexadecimal<td><input id="hex" type="text" size="24" maxlength="16" />
                 <tr><td>Binary<td><span id="sign"></span><span id="exp"></span><span id="mantissa"></span>
                 <tr><td>Exact Value<td><span id="description"></span>
                 <tr><td>Printed Decimal Value<br />(may be approximate)<td><span id="decimal"></span>
             </table>
-        </fieldset>
-        <br/>
-        <fieldset id="fromDecimal"><legend class="label">Encoder</legend>
+        
+        </div>
+        
+        <div id="encoder">
+        
             <table border="0" cellpadding="6">
                 <tr><td>Single-Precision Float<td><input id="hex" type="text" size="24" maxlength="16" />
                 <tr><td>Binary<td><span id="sign"></span><span id="exp"></span><span id="mantissa"></span>
                 <tr><td>Exact Value<td><span id="description"></span>
                 <tr><td>Printed Decimal Value<br />(may be approximate)<td><span id="decimal"></span>
             </table>
-        </fieldset>
+
+        </div>
     </div>
     
     </body>
