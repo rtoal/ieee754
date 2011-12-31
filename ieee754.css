@@ -19,3 +19,34 @@ div.entry {
     border-bottom: 1px solid #888;
     background-color: #eee;
 }
+
+fieldset#fromHex {
+	background-color: #eee;
+}
+
+fieldset#fromDecimal {
+	background-color: #eee;
+}
+
+ul#tabs {
+	height: 1.60em;
+}
+
+ul#tabs li {
+	float: left;
+	margin-right: .25em;
+	border-bottom: 1px solid #C0C0C0;
+	list-style-type: none;
+	background: #DADDE3;
+}
+
+ul#tabs li a:visited, ul#tabs li a:hover, ul#tabs li a {
+	text-decoration: none;
+	color: navy;
+	display: block;
+}
+
+div#entryMethods {
+	clear: both;
+	padding: 0.5em 1.5em;
+}

@@ -18,14 +18,27 @@
     is only good to around seven significant digits (for 32-bit floats) and around 15 significant
     digits (for 64-bit floats), so please understand the printed value is usually only an
     approximation.</p>
-
-    <div class="entry">
-      <table border="0" cellpadding="6">
-        <tr><td>Hexadecimal<td><input id="hex" type="text" size="24" maxlength="16" />
-        <tr><td>Binary<td><span id="sign"></span><span id="exp"></span><span id="mantissa"></span>
-        <tr><td>Exact Value<td><span id="description"></span>
-        <tr><td>Printed Decimal Value<br />(may be approximate)<td><span id="decimal"></span>
-      </table>
+    
+    
+    <div id="entryMethods">
+        <fieldset id="fromHex" class="content"><legend class="label">Decoder</legend>
+            <table border="0" cellpadding="6">
+                <tr><td>Hexadecimal<td><input id="hex" type="text" size="24" maxlength="16" />
+                <tr><td>Binary<td><span id="sign"></span><span id="exp"></span><span id="mantissa"></span>
+                <tr><td>Exact Value<td><span id="description"></span>
+                <tr><td>Printed Decimal Value<br />(may be approximate)<td><span id="decimal"></span>
+            </table>
+        </fieldset>
+        <br/>
+        <fieldset id="fromDecimal"><legend class="label">Encoder</legend>
+            <table border="0" cellpadding="6">
+                <tr><td>Single-Precision Float<td><input id="hex" type="text" size="24" maxlength="16" />
+                <tr><td>Binary<td><span id="sign"></span><span id="exp"></span><span id="mantissa"></span>
+                <tr><td>Exact Value<td><span id="description"></span>
+                <tr><td>Printed Decimal Value<br />(may be approximate)<td><span id="decimal"></span>
+            </table>
+        </fieldset>
     </div>
-  </body>
+    
+    </body>
 </html>
