@@ -6,6 +6,16 @@
     <link rel="stylesheet" href="ieee754.css" />
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="ieee754.js"></script>
+    <!--jquery scripts-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    <!--tabs :D-->
+    <script>
+        $(document).ready(function() {
+            $("#tabs").tabs();
+        });
+  </script>
+  
   </head>
 
   <body>
@@ -18,14 +28,36 @@
     is only good to around seven significant digits (for 32-bit floats) and around 15 significant
     digits (for 64-bit floats), so please understand the printed value is usually only an
     approximation.</p>
+    
+    <div id = "tabs">
+        <ul>
+            <li><a href="#decoder">Decoder</a></li>
+            <li><a href="#encoder">Encoder</a></li>
+        </ul>
+        
+    <div id="entryMethods">
+        <div id="decoder">
+        
+            <table border="0" cellpadding="6">
+                <tr><td>Hexadecimal<td><input id="hex" type="text" size="24" maxlength="16" />
+                <tr><td>Binary<td><span id="sign"></span><span id="exp"></span><span id="mantissa"></span>
+                <tr><td>Exact Value<td><span id="description"></span>
+                <tr><td>Printed Decimal Value<br />(may be approximate)<td><span id="decimal"></span>
+            </table>
+        
+        </div>
+        
+        <div id="encoder">
+        
+            <table border="0" cellpadding="6">
+                <tr><td>Single-Precision Float<td><input id="hex" type="text" size="24" maxlength="16" />
+                <tr><td>Binary<td><span id="sign"></span><span id="exp"></span><span id="mantissa"></span>
+                <tr><td>Exact Value<td><span id="description"></span>
+                <tr><td>Printed Decimal Value<br />(may be approximate)<td><span id="decimal"></span>
+            </table>
 
-    <div class="entry">
-      <table border="0" cellpadding="6">
-        <tr><td>Hexadecimal<td><input id="hex" type="text" size="24" maxlength="16" />
-        <tr><td>Binary<td><span id="sign"></span><span id="exp"></span><span id="mantissa"></span>
-        <tr><td>Exact Value<td><span id="description"></span>
-        <tr><td>Printed Decimal Value<br />(may be approximate)<td><span id="decimal"></span>
-      </table>
+        </div>
     </div>
-  </body>
+    
+    </body>
 </html>
