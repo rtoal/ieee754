@@ -3,8 +3,11 @@
  * IEEE-754 single-precision value and have it shown in binary (with sign, exponent, and
  * mantissa highlighted) and decimal.
  */
-$(document).ready(function () {
+$(function () {
 
+    // It's little endian if integer 1 is encoded as 01.00.00.00
+    var littleEndian = !!(new Uint8Array((new Uint32Array([1])).buffer))[0];
+    
     var allZeros = /^0+$/;
     var allOnes = /^1+$/;
 
@@ -26,7 +29,7 @@ $(document).ready(function () {
      * Determine the various interpretations of the given hex value and render them into the
      * document.
      */
-    var computeAndUpdate = function (h) {
+    var decodeAndUpdate = function (h) {
 
         // Render in binary.  Hackish.
         var b = "";
@@ -85,6 +88,27 @@ $(document).ready(function () {
         $("#decimal").html(value * multiplier);
     }
 
+    var byteArrayToHex = function (b) {
+        var array = [];
+        for (var i = 0; i < b.length; i++) {
+            array[littleEndian ? "unshift" : "push"](b[i]);
+        }
+        return array.map(function (byte) {
+            var hex = byte.toString(16);
+            return hex.length === 1 ? "0" + hex : "" + hex;
+        }).join("");
+    }
+    
+    /**
+     * Here's the code for encoding decimal values into hex.  Here we let JavaScript do all
+     * the work.
+     */
+    var encodeAndUpdate = function (d) {
+        $("#32hex").html(byteArrayToHex(new Uint8Array((new Float32Array([d])).buffer)));
+        $("#64hex").html(byteArrayToHex(new Uint8Array((new Float64Array([d])).buffer)));
+        $("#eprinted").html(+d);
+    }
+    
     // Prohibit non-hex digits from even being entered into the textfield.
     $("#hex").keypress(function (e) {
         var char = String.fromCharCode(e.which);
@@ -93,14 +117,26 @@ $(document).ready(function () {
         }
     });
 
-    // Update the display after something has been entered.
+    // Update the display after something has been entered in the decoding section.
     $("#hex").keyup(function (e) {
         var h = $("#hex").val().toUpperCase();
         if (h.length === 8 || h.length === 16) {
-            computeAndUpdate(h);
+            decodeAndUpdate(h);
         } else {
             // Erase all the computed fields from the page
-            $("span").html("");
+            $("#decoder span").html("");
         }
     });
+    
+    // Update the display after something has been entered in the encoding section.
+    $("#edec").keyup(function (e) {
+        var d = $("#edec").val();
+        if (/^\d+(\.\d*([Ee][+-]?\d+)?)?$/.test(d)) {
+            encodeAndUpdate(d);
+        } else {
+            // Erase all the computed fields from the page
+            $("#encoder span").html("");
+        }
+    });
+    
 });
