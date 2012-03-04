@@ -1,4 +1,11 @@
-IEEE 754 Encoders and Decoders.
+A single-page web application containing an IEEE 754 Encoder (for encoding
+a decimal value into its IEEE-754 single and double precision representation), and
+an IEEE 754 Decoder (for reading the value of an IEEE 754 representation in regular
+scientific notation).
 
-Currently under construction.
+The application works entirely in JavaScript; there is no need for a server.
+
+You will need a modern browser, as the JavaScript code uses Uint8Array and friends.
+
+
 
