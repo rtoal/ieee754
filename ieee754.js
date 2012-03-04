@@ -1,7 +1,11 @@
 /*
- * A script that operates a form in which a user can type in a hexadecimal value for an
- * IEEE-754 single-precision value and have it shown in binary (with sign, exponent, and
- * mantissa highlighted) and decimal.
+ * A script that operates a form in which a user can 
+ *
+ * (1) type in a hexadecimal value for an IEEE-754 single- or double-precision value and have 
+ *     it shown in binary (with sign, exponent, and mantissa highlighted) and its approximate
+ *     decimal value; and
+ * (2) type in a decimal value and see its IEEE-754 hexadecimal encodings in both single- and
+ *     double-precision.
  */
 $(function () {
 
@@ -11,6 +15,7 @@ $(function () {
     var allZeros = /^0+$/;
     var allOnes = /^1+$/;
 
+    // I probably should just use .toString(2) for these....
     var translate = [
         "0000", "0001", "0010", "0011", "0100", "0101", "0110", "0111",
         "1000", "1001", "1010", "1011", "1100", "1101", "1110", "1111"
@@ -25,6 +30,20 @@ $(function () {
             + " &times; 2<sup>" + exponent + "</sup>";
     }
 
+    /*
+     * Produces a hexidecimal string for a Uint8Array.
+     */
+    var byteArrayToHex = function (b) {
+        var array = [];
+        for (var i = 0; i < b.length; i++) {
+            array[littleEndian ? "unshift" : "push"](b[i]); // couldn't resist writing this.
+        }
+        return array.map(function (byte) {
+            var hex = byte.toString(16);
+            return hex.length === 1 ? "0" + hex : "" + hex;
+        }).join("");
+    }
+    
     /*
      * Determine the various interpretations of the given hex value and render them into the
      * document.
@@ -88,17 +107,6 @@ $(function () {
         $("#decimal").html(value * multiplier);
     }
 
-    var byteArrayToHex = function (b) {
-        var array = [];
-        for (var i = 0; i < b.length; i++) {
-            array[littleEndian ? "unshift" : "push"](b[i]);
-        }
-        return array.map(function (byte) {
-            var hex = byte.toString(16);
-            return hex.length === 1 ? "0" + hex : "" + hex;
-        }).join("");
-    }
-    
     /**
      * Here's the code for encoding decimal values into hex.  Here we let JavaScript do all
      * the work.
@@ -106,7 +114,7 @@ $(function () {
     var encodeAndUpdate = function (d) {
         $("#32hex").html(byteArrayToHex(new Uint8Array((new Float32Array([d])).buffer)));
         $("#64hex").html(byteArrayToHex(new Uint8Array((new Float64Array([d])).buffer)));
-        $("#eprinted").html(+d);
+        $("#printed").html(+d);
     }
     
     // Prohibit non-hex digits from even being entered into the textfield.
@@ -123,20 +131,19 @@ $(function () {
         if (h.length === 8 || h.length === 16) {
             decodeAndUpdate(h);
         } else {
-            // Erase all the computed fields from the page
+            // Erase all the computed fields from the section
             $("#decoder span").html("");
         }
     });
     
     // Update the display after something has been entered in the encoding section.
-    $("#edec").keyup(function (e) {
-        var d = $("#edec").val();
-        if (/^\d+(\.\d*([Ee][+-]?\d+)?)?$/.test(d)) {
+    $("#dec").keyup(function (e) {
+        var d = $("#dec").val();
+        if (/^-?\d+(\.\d*)?([Ee][+-]?\d+)?$/.test(d)) {
             encodeAndUpdate(d);
         } else {
-            // Erase all the computed fields from the page
+            // Erase all the computed fields from the section
             $("#encoder span").html("");
         }
-    });
-    
+    });    
 });
