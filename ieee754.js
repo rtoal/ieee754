@@ -29,8 +29,8 @@ $(function () {
      * zeros.
      */
     var formatExactValue = function (fraction, exponent) {
-        return "(1." + (fraction.replace(/0+$/, "") || "0") + ")<sub>2</sub>"
-            + " &times; 2<sup>" + exponent + "</sup>";
+        return "(1." + (fraction.replace(/0+$/, "") || "0") + ")<sub>2</sub>" +
+            " &times; 2<sup>" + exponent + "</sup>";
     };
 
     /*
