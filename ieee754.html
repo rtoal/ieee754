@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>IEEE 754</title>
     <link rel="stylesheet" href="ieee754.css">
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="big.min.js"></script>
     <script src="ieee754.js"></script>  
   </head>
 
@@ -14,17 +15,18 @@
     <table id="decoder" border="0">
       <tr><td>Hexadecimal<td><input id="hex" type="text" size="24" maxlength="16">
       <tr><td>Binary<td><span id="sign"></span><span id="exp"></span><span id="mantissa"></span>
-      <tr><td>Exact Value<td><span id="description"></span>
-      <tr><td>Printed Decimal Value<br>(may be approximate)<td><span id="decimal"></span>
+      <tr><td>Exact Value<td><div id="description"></div>
+      <tr><td>Printed Decimal Value<br>(may be approximate)<td><div id="decimal"></div>
+      <tr><td>Exact Decimal Value<td><div id="exact-decoded-decimal"></div>
     </table>
 
     <h1>IEEE 754 Encoder</h1>
 
     <table id="encoder" border="0">
       <tr><td>Decimal Value<td><input id="dec" type="text" size="24" maxlength="160">
-      <tr><td>32-bit Hex<td><span id="32hex"></span>
-      <tr><td>64-bit Hex<td><span id="64hex"></span>
-      <tr><td>Printed Decimal Value<br>(may be approximate)<td><span id="printed"></span>
+      <tr><td>32-bit Hex<td><div id="32hex"></div>
+      <tr><td>64-bit Hex<td><div id="64hex"></div>
+      <tr><td>Printed Decimal Value<br>(may be approximate)<td><div id="printed"></div>
     </table>
   </body>
 </html>

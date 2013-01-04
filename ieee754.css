@@ -1,40 +1,47 @@
 body {
-    width: 1000px;
-    margin: 2em auto;
-    font: 18px Helvetica, Arial, sans-serif
+  width: 1000px;
+  margin: 2em auto;
+  font: 18px Helvetica, Arial, sans-serif;
 }
 
 h1 {
-    font-size: 44px
+  font-size: 44px
 }
 
 input {
-   font-size: 30px;
+ font-size: 30px;
 }
 
 span#sign {
-    background-color: #aaffff;
+  background-color: #aaffff;
 }
 
 span#exp {
-    background-color: #00bfff;
+  background-color: #00bfff;
 }
 
 span#mantissa {
-    background-color: #0099cc;
+  background-color: #0099cc;
 }
 
 div.entry {
-    border-top: 1px solid #888;
-    border-bottom: 1px solid #888;
-    background-color: #eee;
+  border-top: 1px solid #888;
+  border-bottom: 1px solid #888;
+  background-color: #eee;
 }
 
 div#entryMethods {
-	clear: both;
-	padding: 0.5em 1.5em;
+  clear: both;
+  padding: 0.5em 1.5em;
 }
 
 td:first-child {
-    width: 240px
+  width: 240px;
 }
+
+#exact-decoded-decimal {
+  width: 700px;
+  height: auto;
+  word-wrap: break-word;
+}
+

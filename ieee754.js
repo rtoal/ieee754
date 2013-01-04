@@ -9,6 +9,9 @@
  */
 $(function () {
 
+    // The big.js defaults are too lame for us.  We need more precision!
+    Big.DP = 100000;
+
     // It's little endian if integer 1 is encoded as 01.00.00.00
     var littleEndian = !!(new Uint8Array((new Uint32Array([1])).buffer))[0];
     
@@ -20,13 +23,6 @@ $(function () {
         "0000", "0001", "0010", "0011", "0100", "0101", "0110", "0111",
         "1000", "1001", "1010", "1011", "1100", "1101", "1110", "1111"
     ];
-    /*
-     * AW: Should this be put in place of the previous?
-     *
-     * for (var i = 0; i < 16; i += 1) {
-     *     translate.push(i.toString(2));
-     * }
-     */
 
     /*
      * Return a string of the form "(1.f)_2 x 2^e" where the fractional part has no trailing
@@ -77,6 +73,7 @@ $(function () {
         var value = 0;
         var text = (s === "0" ? "+" : "-");
         var multiplier = (s === "0" ? 1 : -1);
+        var exactDecimal = (s === "0" ? "" : "-");
 
         if (allZeros.test(e)) {
             // Zero or denormalized
@@ -104,6 +101,10 @@ $(function () {
             var mantissa = parseInt(m, 2);
             text += formatExactValue(m, exponent);
             value = (1 + (mantissa * Math.pow(2, -mantissaBits))) * Math.pow(2, exponent);
+            exactDecimal += new Big(1).
+                plus(new Big(mantissa).times(new Big(2).pow(-mantissaBits))).
+                times(new Big(2).pow(exponent)).
+                toFixed();
         }
 
         // All done computing, render everything.
@@ -112,6 +113,7 @@ $(function () {
         $("#mantissa").html(m);
         $("#description").html(text);
         $("#decimal").html(value * multiplier);
+        $("#exact-decoded-decimal").html(exactDecimal);
     }
 
     /**
@@ -139,6 +141,7 @@ $(function () {
             decodeAndUpdate(h);
         } else {
             // Erase all the computed fields from the section
+            $("#decoder div").html("");
             $("#decoder span").html("");
         }
     });
@@ -150,6 +153,7 @@ $(function () {
             encodeAndUpdate(d);
         } else {
             // Erase all the computed fields from the section
+            $("#encoder div").html("");
             $("#encoder span").html("");
         }
     });    
