@@ -79,10 +79,12 @@ $(function () {
             // Zero or denormalized
             if (allZeros.test(m)) {
                 text += " Zero";
+                exactDecimal += "0";
             } else {
                 var firstOneIndex = m.indexOf("1");
                 text += formatExactValue(m.substring(firstOneIndex + 1), -bias-firstOneIndex);
                 value = parseInt(m, 2) * Math.pow(2, minExponent);
+                exactDecimal += new Big(parseInt(m, 2)).times(new Big(2).pow(minExponent)).toFixed();
             }
 
         } else if (allOnes.test(e)) {
@@ -94,6 +96,7 @@ $(function () {
                 text = "NaN";
                 value = NaN;
             }
+            exactDecimal = text;
 
         } else {
             // Normalized
@@ -113,7 +116,7 @@ $(function () {
         $("#mantissa").html(m);
         $("#description").html(text);
         $("#decimal").html(value * multiplier);
-        $("#exact-decoded-decimal").html(exactDecimal);
+        $("#exact-decoded-decimal").html(exactDecimal)
     }
 
     /**
