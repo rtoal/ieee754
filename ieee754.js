@@ -31,7 +31,7 @@ $(function () {
     var formatExactValue = function (fraction, exponent) {
         return "(1." + (fraction.replace(/0+$/, "") || "0") + ")<sub>2</sub>"
             + " &times; 2<sup>" + exponent + "</sup>";
-    }
+    };
 
     /*
      * Produces a hexidecimal string for a Uint8Array.
@@ -45,7 +45,7 @@ $(function () {
             var hex = byte.toString(16);
             return hex.length === 1 ? "0" + hex : "" + hex;
         }).join("");
-    }
+    };
     
     /*
      * Determine the various interpretations of the given hex value and render them into the
@@ -116,8 +116,8 @@ $(function () {
         $("#mantissa").html(m);
         $("#description").html(text);
         $("#decimal").html(value * multiplier);
-        $("#exact-decoded-decimal").html(exactDecimal)
-    }
+        $("#exact-decoded-decimal").html(exactDecimal);
+    };
 
     /**
      * Here's the code for encoding decimal values into hex.  Here we let JavaScript do all
@@ -127,7 +127,7 @@ $(function () {
         $("#32hex").html(byteArrayToHex(new Uint8Array((new Float32Array([d])).buffer)));
         $("#64hex").html(byteArrayToHex(new Uint8Array((new Float64Array([d])).buffer)));
         $("#printed").html(+d);
-    }
+    };
     
     // Prohibit non-hex digits from even being entered into the textfield.
     $("#hex").keypress(function (e) {
