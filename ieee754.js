@@ -46,6 +46,14 @@ $(function () {
             return hex.length === 1 ? "0" + hex : "" + hex;
         }).join("");
     };
+
+    /*
+     * Determine the decimal representation of a hexidecimal character
+     */
+    var hexToDec = function (hexString, charLoc)
+    {
+        return "0123456789ABCDEF".indexOf(hexString.charAt(charLoc));
+    }
     
     /*
      * Determine the various interpretations of the given hex value and render them into the
@@ -56,7 +64,7 @@ $(function () {
         // Render in binary.  Hackish.
         var b = "";
         for (var i = 0, n = h.length; i < n; i++) {
-            b += translate["0123456789ABCDEF".indexOf(h.charAt(i))];
+            b += translate[hexToDec(h,i)];
         }
 
         // Determine configuration.  This could have all been precomputed but it is fast enough.
@@ -134,6 +142,45 @@ $(function () {
         var char = String.fromCharCode(e.which);
         if (! /[\dA-Fa-f]/.test(char)) {
             e.preventDefault();
+        }
+    });
+
+    // Up and down arrows for hex
+    $("#hex").keydown(function (e) {
+        var h = $("#hex").val().toUpperCase();
+        if (e.keyCode == 38) { // Up arrow pressed
+            if ((h.length === 8 || h.length === 16) && (h != "FFFFFFFF" && h != "FFFFFFFFFFFFFFFF")) {
+                var charPointer = h.length - 1;
+                while (hexToDec(h, charPointer) === 15) { // Get the last character that ISN'T F
+                    charPointer--;
+                }
+                var endString = "";
+                for (var i = charPointer; i < h.length-1; i++) {
+                    endString += "0"
+                }
+                var decCharValue = hexToDec(h, charPointer);
+                decCharValue++;
+                var newH = h.substring(0,charPointer) + "0123456789ABCDEF".charAt(decCharValue) + endString
+                decodeAndUpdate(newH);
+                $("#hex").val(newH);
+            }
+        }
+        else if (e.keyCode == 40){ // Down arrow pressed
+            if ((h.length === 8 || h.length === 16) && (h != "00000000" && h != "0000000000000000")) {
+                var charPointer = h.length - 1;
+                while (hexToDec(h, charPointer) === 0) { // Get the last character that ISN'T 0
+                    charPointer--;
+                }
+                var endString = "";
+                for (var i = charPointer; i < h.length-1; i++) {
+                    endString += "F"
+                }
+                var decCharValue = hexToDec(h, charPointer);
+                decCharValue--;
+                var newH = h.substring(0,charPointer) + "0123456789ABCDEF".charAt(decCharValue) + endString
+                decodeAndUpdate(newH);
+                $("#hex").val(newH);
+            }
         }
     });
 
