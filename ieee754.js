@@ -142,7 +142,7 @@ $(function () {
     };
 
     /**
-     * 
+     * Change the hex text box 'h' given relevant information. Assumes input is already sanitized. 
      */
     var changeHexValue = function(h, operationToPerform, lastCharDecValue, charToAppend) {
         var charIndex = h.length - 1;
