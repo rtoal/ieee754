@@ -127,6 +127,10 @@ $(function () {
         $("#exact-decoded-decimal").html(exactDecimal);
     };
 
+    var isValidLength = function (h) {
+        return (h.length===8 || h.length===16);
+    }
+
     /**
      * Here's the code for encoding decimal values into hex.  Here we let JavaScript do all
      * the work.
@@ -136,7 +140,28 @@ $(function () {
         $("#64hex").html(byteArrayToHex(new Uint8Array((new Float64Array([d])).buffer)));
         $("#printed").html(+d);
     };
+
+    /**
+     * 
+     */
+    var changeHexValue = function(h, operationToPerform, lastCharDecValue, charToAppend) {
+        var charIndex = h.length - 1;
+        while (hexToDec(h, charIndex) === lastCharDecValue) {
+            charIndex--;
+        }
+        var endString = "";
+        for (var i = charIndex; i < h.length-1; i++) {
+            endString += charToAppend
+        }
+        var decCharValue = hexToDec(h, charIndex);
+        decCharValue += operationToPerform;
+        var newH = h.substring(0,charIndex) + "0123456789ABCDEF".charAt(decCharValue) + endString
+        decodeAndUpdate(newH);
+        $("#hex").val(newH);
+    }
     
+
+
     // Prohibit non-hex digits from even being entered into the textfield.
     $("#hex").keypress(function (e) {
         var char = String.fromCharCode(e.which);
@@ -148,38 +173,16 @@ $(function () {
     // Up and down arrows for hex
     $("#hex").keydown(function (e) {
         var h = $("#hex").val().toUpperCase();
-        if (e.keyCode == 38) { // Up arrow pressed
-            if ((h.length === 8 || h.length === 16) && (h != "FFFFFFFF" && h != "FFFFFFFFFFFFFFFF")) {
-                var charPointer = h.length - 1;
-                while (hexToDec(h, charPointer) === 15) { // Get the last character that ISN'T F
-                    charPointer--;
+        if (isValidLength(h)){
+            if (e.keyCode == 38) { // Up arrow pressed
+                if (isValidLength(h) && (h != "FFFFFFFF" && h != "FFFFFFFFFFFFFFFF")) {
+                    changeHexValue(h, 1, 15, "0");
                 }
-                var endString = "";
-                for (var i = charPointer; i < h.length-1; i++) {
-                    endString += "0"
-                }
-                var decCharValue = hexToDec(h, charPointer);
-                decCharValue++;
-                var newH = h.substring(0,charPointer) + "0123456789ABCDEF".charAt(decCharValue) + endString
-                decodeAndUpdate(newH);
-                $("#hex").val(newH);
             }
-        }
-        else if (e.keyCode == 40){ // Down arrow pressed
-            if ((h.length === 8 || h.length === 16) && (h != "00000000" && h != "0000000000000000")) {
-                var charPointer = h.length - 1;
-                while (hexToDec(h, charPointer) === 0) { // Get the last character that ISN'T 0
-                    charPointer--;
+            else if (e.keyCode == 40){ // Down arrow pressed
+                if (isValidLength(h) && (h != "00000000" && h != "0000000000000000")) {
+                    changeHexValue(h, -1, 0, "F");
                 }
-                var endString = "";
-                for (var i = charPointer; i < h.length-1; i++) {
-                    endString += "F"
-                }
-                var decCharValue = hexToDec(h, charPointer);
-                decCharValue--;
-                var newH = h.substring(0,charPointer) + "0123456789ABCDEF".charAt(decCharValue) + endString
-                decodeAndUpdate(newH);
-                $("#hex").val(newH);
             }
         }
     });
@@ -187,7 +190,7 @@ $(function () {
     // Update the display after something has been entered in the decoding section.
     $("#hex").keyup(function (e) {
         var h = $("#hex").val().toUpperCase();
-        if (h.length === 8 || h.length === 16) {
+        if (isValidLength(h)) {
             decodeAndUpdate(h);
         } else {
             // Erase all the computed fields from the section
