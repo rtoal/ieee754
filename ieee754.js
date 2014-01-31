@@ -175,12 +175,12 @@ $(function () {
         var h = $("#hex").val().toUpperCase();
         if (isValidLength(h)){
             if (e.keyCode == 38) { // Up arrow pressed
-                if (isValidLength(h) && (h != "FFFFFFFF" && h != "FFFFFFFFFFFFFFFF")) {
+                if (h != "FFFFFFFF" && h != "FFFFFFFFFFFFFFFF") {
                     changeHexValue(h, 1, 15, "0");
                 }
             }
             else if (e.keyCode == 40){ // Down arrow pressed
-                if (isValidLength(h) && (h != "00000000" && h != "0000000000000000")) {
+                if (h != "00000000" && h != "0000000000000000") {
                     changeHexValue(h, -1, 0, "F");
                 }
             }
