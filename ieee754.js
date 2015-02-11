@@ -54,13 +54,42 @@ $(function () {
     {
         return "0123456789ABCDEF".indexOf(hexString.charAt(charLoc));
     }
+
+    var binToHex = function (binString) {
+        if (binString.length % 4 != 0) {
+            throw new Error("Invalid binary string");
+        }
+        var hex = [];
+        for (var i = 0; i < binString.length; i+=4) {
+            var hexMap = {
+                '0000': '0',
+                '0001': '1',
+                '0010': '2',
+                '0011': '3',
+                '0100': '4',
+                '0101': '5',
+                '0110': '6',
+                '0111': '7',
+                '1000': '8',
+                '1001': '9',
+                '1010': 'A',
+                '1011': 'B',
+                '1100': 'C',
+                '1101': 'D',
+                '1110': 'E',
+                '1111': 'F',
+            };
+            hex.push(hexMap[binString.substr(i, 4)]);
+        }
+        return hex.join('');
+    };
     
     /*
      * Determine the various interpretations of the given hex value and render them into the
      * document.
      */
-    var decodeAndUpdate = function (h) {
-
+    var decodeAndUpdate = function (h, data) {
+        data = data || {};
         // Render in binary.  Hackish.
         var b = "";
         for (var i = 0, n = h.length; i < n; i++) {
@@ -74,9 +103,9 @@ $(function () {
         var minExponent = 1 - bias - mantissaBits;
 
         // Break up the binary representation into its pieces for easier processing.
-        var s = b[0];
-        var e = b.substring(1, exponentBits + 1);
-        var m = b.substring(exponentBits + 1);
+        var s = data.sign || b[0];
+        var e = data.exponent || b.substring(1, exponentBits + 1);
+        var m = data.mantissa || b.substring(exponentBits + 1);
 
         var value = 0;
         var text = (s === "0" ? "+" : "-");
@@ -119,12 +148,58 @@ $(function () {
         }
 
         // All done computing, render everything.
+        $("#sign").unbind();
         $("#sign").html(s);
-        $("#exp").html(e);
-        $("#mantissa").html(m);
+        $("#sign").click(function(event) {
+            var newSign = $(this).text() === '0' ? '1' : '0';
+            data.sign = newSign;
+            decodeAndUpdate(h, data);
+            event.preventDefault();
+            event.stopPropagation();
+        });
+        //$("#exp").html(e);
+        $("#exp").empty();
+        for (var i = 0; i < e.length; i++) {
+            var bit = $("<div></div>").text(e[i]);
+            bit.data({
+                'index': i,
+                'exponent': e
+            });
+            bit.click(function(event) {
+                var eindex = $(this).data('index');
+                var exponent = $(this).data('exponent');
+                var thisBit = exponent[eindex] === '0' ? '1' : '0';
+                exponent = exponent.substr(0, eindex) + thisBit + exponent.substr(eindex + 1);
+                data.exponent = exponent
+                decodeAndUpdate(h, data);
+                event.preventDefault();
+            });
+            $("#exp").append(bit);
+        }
+        //$("#mantissa").html(m);
+        $("#mantissa").empty();
+        for (var i = 0; i < m.length; i++) {
+            var mbit = $("<div></div>").text(m[i]);
+            mbit.data({
+                'index': i,
+                'mantissa': m
+            });
+            mbit.click(function(event) {
+                var mindex = $(this).data('index');
+                var mantissa = $(this).data('mantissa');
+                var thisBit = mantissa[mindex] === '0' ? '1' : '0';
+                mantissa = mantissa.substr(0, mindex) + thisBit + mantissa.substr(mindex + 1);
+                data.mantissa = mantissa
+                decodeAndUpdate(h, data);
+                event.preventDefault();
+            });
+
+            $("#mantissa").append(mbit);
+        }
         $("#description").html(text);
         $("#decimal").html(value * multiplier);
         $("#exact-decoded-decimal").html(exactDecimal);
+        $("#hex").val(binToHex(s + e + m));
     };
 
     var isValidLength = function (h) {

@@ -14,14 +14,21 @@ input {
 
 span#sign {
   background-color: #aaffff;
+  float: left;
 }
 
-span#exp {
+/*span#exp {
+  background-color: #00bfff;
+}*/
+
+#exp div {
+    float: left;
   background-color: #00bfff;
 }
 
-span#mantissa {
+#mantissa div {
   background-color: #0099cc;
+  float: left;
 }
 
 div.entry {
