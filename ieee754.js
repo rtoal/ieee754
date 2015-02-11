@@ -18,6 +18,9 @@ $(function () {
     var allZeros = /^0+$/;
     var allOnes = /^1+$/;
 
+    var UP_ARROW = 38;
+    var DOWN_ARROW = 40;
+
     // I probably should just use .toString(2) for these....
     var translate = [
         "0000", "0001", "0010", "0011", "0100", "0101", "0110", "0111",
@@ -248,12 +251,12 @@ $(function () {
     $("#hex").keydown(function (e) {
         var h = $("#hex").val().toUpperCase();
         if (isValidLength(h)){
-            if (e.keyCode == 38) { // Up arrow pressed
+            if (e.keyCode === UP_ARROW) {
                 if (h != "FFFFFFFF" && h != "FFFFFFFFFFFFFFFF") {
                     changeHexValue(h, 1, 15, "0");
                 }
             }
-            else if (e.keyCode == 40){ // Down arrow pressed
+            else if (e.keyCode === DOWN_ARROW) {
                 if (h != "00000000" && h != "0000000000000000") {
                     changeHexValue(h, -1, 0, "F");
                 }
