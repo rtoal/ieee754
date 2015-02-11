@@ -50,10 +50,9 @@ $(function () {
     /*
      * Determine the decimal representation of a hexidecimal character
      */
-    var hexToDec = function (hexString, charLoc)
-    {
+    var hexToDec = function (hexString, charLoc) {
         return "0123456789ABCDEF".indexOf(hexString.charAt(charLoc));
-    }
+    };
 
     var binToHex = function (binString) {
         if (binString.length % 4 != 0) {
