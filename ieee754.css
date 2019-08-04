@@ -8,6 +8,12 @@ h1 {
   font-size: 44px
 }
 
+table {
+  width: 100%;
+  background-color: #f2f7f9;
+  padding: 8px;
+}
+
 input {
  font-size: 30px;
 }
@@ -18,24 +24,13 @@ span#sign {
 }
 
 #exp div {
-    float: left;
+  float: left;
   background-color: #00bfff;
 }
 
 #mantissa div {
   background-color: #0099cc;
   float: left;
-}
-
-div.entry {
-  border-top: 1px solid #888;
-  border-bottom: 1px solid #888;
-  background-color: #eee;
-}
-
-div#entryMethods {
-  clear: both;
-  padding: 0.5em 1.5em;
 }
 
 td:first-child {
